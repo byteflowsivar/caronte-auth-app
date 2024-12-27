@@ -1,21 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  Map,
-  PieChart,
-  Settings2,
-  ShieldCheck,
-  SquareTerminal,
-} from 'lucide-react';
+import { AudioWaveform, Command, Frame, Map, PieChart, ShieldCheck } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
-import { NavProjects } from '@/components/nav-projects';
 import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
@@ -25,149 +13,35 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { CompanyInfo } from '@/components/CompanyInfo';
-
-// This is sample data.
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
-  teams: [
-    {
-      name: 'Caronte Auth',
-      logo: ShieldCheck,
-      plan: 'Byteflow Sivar',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
-  navMain: [
-    {
-      title: 'Playground',
-      url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
-};
+import { useEffect } from 'react';
+import UserInfo from '@/lib/entities/user-info';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [navMain, setNavMain] = React.useState([]);
+  const [userInfo, setUserInfo] = React.useState({} as UserInfo);
+
+  useEffect(() => {
+    fetch('/api/auth/info')
+      .then((response) => response.json())
+      .then((data) => setUserInfo(data));
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/protected/menu')
+      .then((response) => response.json())
+      .then((data) => setNavMain(data));
+  }, []);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <CompanyInfo />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userInfo} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

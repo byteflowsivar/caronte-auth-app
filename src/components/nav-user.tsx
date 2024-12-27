@@ -18,16 +18,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import UserInfo from '@/lib/entities/user-info';
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-}) {
+export function NavUser({ user }: { user: UserInfo }) {
   const { isMobile } = useSidebar();
 
   return (
