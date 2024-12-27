@@ -1,7 +1,4 @@
-'use client';
-
 import * as React from 'react';
-import { AudioWaveform, Command, Frame, Map, PieChart, ShieldCheck } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -13,24 +10,13 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { CompanyInfo } from '@/components/CompanyInfo';
-import { useEffect } from 'react';
+import fetchData from '@/lib/fetch-data';
 import UserInfo from '@/lib/entities/user-info';
+import NavItem from '@/lib/entities/nav-item';
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [navMain, setNavMain] = React.useState([]);
-  const [userInfo, setUserInfo] = React.useState({} as UserInfo);
-
-  useEffect(() => {
-    fetch('/api/auth/info')
-      .then((response) => response.json())
-      .then((data) => setUserInfo(data));
-  }, []);
-
-  useEffect(() => {
-    fetch('/api/protected/menu')
-      .then((response) => response.json())
-      .then((data) => setNavMain(data));
-  }, []);
+export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const userInfo = await fetchData<UserInfo>('/api/auth/info');
+  const navMain = await fetchData<NavItem[]>('/api/protected/menu');
 
   return (
     <Sidebar collapsible="icon" {...props}>

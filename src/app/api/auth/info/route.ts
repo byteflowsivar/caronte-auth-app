@@ -4,9 +4,13 @@ const user: UserInfo = {
   id: '1',
   name: 'Victor Hugo Cornejo',
   email: 'm@example.com',
-  avatar: '/avatars/shadcn.jpg',
+  avatar: 'https://github.com/shadcn.png',
 };
 
 export async function GET() {
-  return Response.json(user);
+  return new Promise<Response>((resolve) => {
+    setTimeout(() => {
+      resolve(Response.json(user));
+    }, 5000);
+  });
 }
