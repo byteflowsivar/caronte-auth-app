@@ -7,17 +7,16 @@ import {
   Bot,
   Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
+  ShieldCheck,
   SquareTerminal,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
 import { NavUser } from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +24,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { CompanyInfo } from '@/components/CompanyInfo';
 
 // This is sample data.
 const data = {
@@ -35,9 +35,9 @@ const data = {
   },
   teams: [
     {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
+      name: 'Caronte Auth',
+      logo: ShieldCheck,
+      plan: 'Byteflow Sivar',
     },
     {
       name: 'Acme Corp.',
@@ -160,7 +160,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <CompanyInfo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
