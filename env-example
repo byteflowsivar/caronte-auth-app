@@ -1,0 +1,7 @@
+## Environment variables for the application on browser
+NEXT_PUBLIC_APPLICATION_NAME="Caronte Auth"
+NEXT_PUBLIC_COMPANY_NAME="Byteflow Sivar"
+
+## Environment variables for the application on server
+API_URL="http://localhost:3000"
+
