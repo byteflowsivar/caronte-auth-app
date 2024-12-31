@@ -20,9 +20,24 @@ import {
 } from '@/components/ui/sidebar';
 import UserInfo from '@/lib/entities/user-info';
 import { signOut } from 'next-auth/react';
+import fetchData from '@/lib/fetch-data';
+import { useEffect, useState } from 'react';
 
-export function NavUser({ user }: { user: UserInfo }) {
+export function NavUser() {
   const { isMobile } = useSidebar();
+
+  const [user, setUser] = useState<UserInfo>({
+    id: 0,
+    name: '',
+    email: '',
+    avatar: '',
+  });
+
+  useEffect(() => {
+    fetchData<UserInfo>('/api/secure/info').then((data) => {
+      setUser(data);
+    });
+  }, []);
 
   return (
     <SidebarMenu>
@@ -85,9 +100,9 @@ export function NavUser({ user }: { user: UserInfo }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/api/auth/logout' })}>
               <LogOut />
-              Log out
+              Cerrar sesión
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

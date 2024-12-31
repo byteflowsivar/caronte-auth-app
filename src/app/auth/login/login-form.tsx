@@ -17,9 +17,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         <CardContent>
           <div className="grid gap-6">
             <div className="flex flex-col gap-4">
-              <Button variant="outline" className="w-full" onClick={() => signIn('keycloak')}>
+              <Button
+                variant="default"
+                className="w-full"
+                onClick={() => signIn('keycloak', { callbackUrl: '/secure/dashboard' })}
+              >
                 <LogIn className="size-4" />
-                Ingresar con tus credenciales
+                Ingresar
               </Button>
             </div>
           </div>

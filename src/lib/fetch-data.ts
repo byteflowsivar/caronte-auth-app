@@ -1,14 +1,11 @@
-export default async function fetchData<T>(url: string, seftService: boolean = true): Promise<T> {
-  let endpoint: string = '';
+export default async function fetchData<T>(url: string): Promise<T> {
+  const endpoint =
+    (typeof window === 'undefined' ? process.env.API_URL : process.env.NEXT_PUBLIC_API_URL) + url;
 
-  if (seftService) {
-    endpoint = process.env.API_URL + url;
-  } else {
-    endpoint = url;
-  }
+  console.log('fetchData', endpoint);
   const response = await fetch(endpoint);
   if (!response.ok) {
     throw new Error(`Network response was not ok: ${response.statusText}`);
   }
-  return (await response.json()) as T;
+  return await response.json();
 }

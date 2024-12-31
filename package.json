@@ -50,6 +50,7 @@
     "react": "^16.8 || ^17.0 || ^18.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0",
     "react-hook-form": "^7.54.0",
+    "react-jwt": "^1.2.2",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.14.1",
     "sonner": "^1.7.0",
