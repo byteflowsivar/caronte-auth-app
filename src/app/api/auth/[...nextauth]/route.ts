@@ -1,7 +1,6 @@
-import NextAuth, { NextAuthOptions, Profile, Session } from 'next-auth';
+import NextAuth, { NextAuthOptions, Profile } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { decodeToken } from 'react-jwt';
-
 
 // Para obtener más información sobre cada opción (y una lista completa de opciones), vaya a
 // https://next-auth.js.org/configuration/options
@@ -20,20 +19,19 @@ export const authOptions: NextAuthOptions = {
       try {
         let decodedToken;
         if (account) {
-          decodedToken = decodeToken(account.access_token as any);
+          decodedToken = decodeToken(account.access_token);
           if (token == null) {
-            throw new Error('Unnable to decode token');
+            throw new Error('Unable to decode token');
           }
           profile = decodedToken as Profile;
           token.account = account;
         }
         if (profile) {
           token.profile = profile;
-          const clientRoles = profile.realm_access.roles;
-          token.client_roles = clientRoles;
+          token.client_roles = profile.realm_access.roles;
         }
 
-        console.log('NODE_ENV => ', process.env.NODE_ENV)
+        console.log('NODE_ENV => ', process.env.NODE_ENV);
 
         if (process.env.NODE_ENV === 'development') {
           console.log('--------------ACCOUNT---------------');
@@ -43,20 +41,23 @@ export const authOptions: NextAuthOptions = {
           console.log('--------------ROLES---------------');
           console.log(token.client_roles);
           console.log('--------------PROFILE---------------');
-          console.log(profile);
+          console.log(JSON.stringify(profile));
         }
-
       } catch (error) {
         console.log(error);
       }
       return token;
     },
-    async session({ session, token, trigger }) {
+    async session({ session, token }) {
       console.log('async session accessed');
 
-      session.account = token.account;
-      session.profile = token.profile;
-      session.roles = token.client_roles;
+      session.account = token.account as object;
+      session.profile = token.profile as object;
+      session.roles = token.client_roles as object;
+
+      console.log('--------------SESSION---------------');
+      console.log(typeof token);
+      console.log(`session => `, JSON.stringify(token.profile));
       return session;
     },
   },

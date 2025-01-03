@@ -5,13 +5,15 @@ import 'next-auth';
  */
 declare module 'next-auth' {
   interface Session {
-    account: any;
-    profile: any;
-    roles: any;
+    account: object;
+    profile: object;
+    roles: object;
   }
 
   interface Profile {
-    realm_access: any;
+    realm_access: {
+      roles: string[];
+    };
   }
 
   export interface Account extends Partial<TokenSet> {
@@ -25,7 +27,6 @@ declare module 'next-auth' {
     token_type: string;
     id_token: string;
     session_state: string;
-    scope
-
+    scope: string;
   }
-} 
+}

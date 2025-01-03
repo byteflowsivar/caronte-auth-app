@@ -1,7 +1,7 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { getServerSession} from 'next-auth/next'
+import { getServerSession } from 'next-auth/next';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const session = await getServerSession(authOptions);
@@ -10,7 +10,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   } else {
-
     console.log(`--------------TOKEN GET TOKEN---------------`);
     console.log(token);
 
