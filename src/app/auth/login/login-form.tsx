@@ -7,6 +7,11 @@ import { LogIn } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const onSignIn = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    await signIn('keycloak', { callbackUrl: '/secure/dashboard' });
+  };
+
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
@@ -17,14 +22,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         <CardContent>
           <div className="grid gap-6">
             <div className="flex flex-col gap-4">
-              <Button
-                variant="default"
-                className="w-full"
-                onClick={() => signIn('keycloak', { callbackUrl: '/secure/dashboard' })}
-              >
-                <LogIn className="size-4" />
-                Ingresar
-              </Button>
+              <form onSubmit={onSignIn}>
+                <Button variant="default" className="w-full" type="submit">
+                  <LogIn className="size-4" />
+                  Ingresar
+                </Button>
+              </form>
             </div>
           </div>
         </CardContent>

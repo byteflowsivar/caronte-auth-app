@@ -21,7 +21,7 @@ export function NavMain() {
   const [items, setItems] = useState<NavItem[]>([]);
 
   useEffect(() => {
-    fetchData<NavItem[]>('/api/secure/menu').then((navMain) => setItems(navMain));
+    fetchData<NavItem[]>('/secure/menu').then((navMain) => setItems(navMain));
   }, []);
 
   return (

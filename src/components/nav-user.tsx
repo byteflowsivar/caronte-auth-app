@@ -34,7 +34,7 @@ export function NavUser() {
   });
 
   useEffect(() => {
-    fetchData<UserInfo>('/api/secure/info').then((data) => {
+    fetchData<UserInfo>('/secure/info').then((data) => {
       setUser(data);
     });
   }, []);
