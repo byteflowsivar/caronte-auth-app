@@ -14,9 +14,6 @@ out
 # Testing
 coverage
 
-# Environment variables
-.env
-
 # Miscellaneous
 .DS_Store
 *.swp
@@ -24,3 +21,7 @@ coverage
 # Editor directories
 .idea
 .vscode
+
+# others
+doc
+docker
