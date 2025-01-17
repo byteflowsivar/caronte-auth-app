@@ -22,6 +22,7 @@ import UserInfo from '@/lib/entities/user-info';
 import { signOut } from 'next-auth/react';
 import fetchData from '@/lib/fetch-data';
 import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -38,6 +39,17 @@ export function NavUser() {
       setUser(data);
     });
   }, []);
+
+  const handleSignOut = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    await signOut({ callbackUrl: '/api/auth/logout', redirect: false });
+    redirect('/auth/login');
+  };
+
+  const handleChangePassword = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    redirect(`https://dev-auth.victorcornejo.com/realms/byteflow/account`);
+  };
 
   return (
     <SidebarMenu>
@@ -79,9 +91,9 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleChangePassword}>
                 <Sparkles />
-                Upgrade to Pro
+                Cambiar contraseña
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -100,7 +112,7 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/api/auth/logout' })}>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Cerrar sesión
             </DropdownMenuItem>

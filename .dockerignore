@@ -1,0 +1,26 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+
+# Build output
+.next
+out
+
+# Testing
+coverage
+
+# Environment variables
+.env
+
+# Miscellaneous
+.DS_Store
+*.swp
+
+# Editor directories
+.idea
+.vscode
