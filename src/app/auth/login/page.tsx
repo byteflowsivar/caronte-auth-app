@@ -1,10 +1,10 @@
 import { ShieldCheck } from 'lucide-react';
-
 import { LoginForm } from '@/app/auth/login/login-form';
+import { env } from '@/config/env';
 
 export default function LoginPage() {
-  const applicationName = process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Application Name';
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Company Name';
+  const applicationName = env.NEXT_PUBLIC_APPLICATION_NAME || 'Application Name';
+  const companyName = env.NEXT_PUBLIC_COMPANY_NAME || 'Company Name';
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">

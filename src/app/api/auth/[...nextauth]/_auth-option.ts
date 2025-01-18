@@ -1,14 +1,15 @@
 import { NextAuthOptions, Profile } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { decodeToken } from 'react-jwt';
+import { env } from '@/config/env';
 
 const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers/oauth
   providers: [
     KeycloakProvider({
-      clientId: process.env.KEYCLOAK_CLIENT_ID as string,
-      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET as string,
-      issuer: process.env.KEYCLOAK_ISSUER as string,
+      clientId: env.KEYCLOAK_CLIENT_ID as string,
+      clientSecret: env.KEYCLOAK_CLIENT_SECRET as string,
+      issuer: env.KEYCLOAK_ISSUER as string,
     }),
   ],
   callbacks: {
@@ -28,7 +29,7 @@ const authOptions: NextAuthOptions = {
           token.client_roles = profile.realm_access.roles;
         }
 
-        console.log('NODE_ENV => ', process.env.NODE_ENV);
+        console.log('NODE_ENV => ', env.NODE_ENV);
 
         if (process.env.NODE_ENV === 'development') {
           console.log('--------------ACCOUNT---------------');
