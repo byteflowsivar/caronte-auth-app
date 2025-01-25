@@ -1,7 +1,9 @@
 import { NextAuthOptions, Profile } from 'next-auth';
-import KeycloakProvider from 'next-auth/providers/keycloak';
+import KeycloakProvider, { KeycloakProfile } from 'next-auth/providers/keycloak';
 import { decodeToken } from 'react-jwt';
 import { env } from '@/config/env';
+import { OAuthConfig } from 'next-auth/providers/oauth';
+import { JWT } from 'next-auth/jwt';
 
 const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers/oauth
@@ -57,6 +59,24 @@ const authOptions: NextAuthOptions = {
       console.log(typeof token);
       console.log(`session => `, JSON.stringify(token.profile));
       return session;
+    },
+  },
+  events: {
+    async signOut({ token }: { token: JWT }) {
+      console.info('signOut event triggered');
+      console.info('token => ', JSON.stringify(token));
+
+      if (token.account.provider === 'keycloak') {
+        const issuerUrl = (
+          authOptions.providers.find((p) => p.id === 'keycloak') as OAuthConfig<KeycloakProfile>
+        ).options!.issuer!;
+        const logOutUrl = new URL(`${issuerUrl}/protocol/openid-connect/logout`);
+        logOutUrl.searchParams.set('id_token_hint', token.account.id_token!);
+
+        console.log('logOutUrl => ', logOutUrl);
+
+        await fetch(logOutUrl);
+      }
     },
   },
   pages: {
