@@ -5,4 +5,4 @@ services:
         dockerfile: docker/staging/Dockerfile
       image: caronte-auth-app:0.0.1-qa
       ports:
-        - "3000:3000"
+        - "4000:3000"

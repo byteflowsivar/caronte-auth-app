@@ -18,6 +18,9 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+
 COPY .env.staging .env
 
 CMD ["node", "server"]
