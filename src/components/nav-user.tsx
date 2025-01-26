@@ -19,9 +19,37 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import UserInfo from '@/lib/entities/user-info';
+import { signOut } from 'next-auth/react';
+import fetchData from '@/lib/fetch-data';
+import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
 
-export function NavUser({ user }: { user: UserInfo }) {
+export function NavUser() {
   const { isMobile } = useSidebar();
+
+  const [user, setUser] = useState<UserInfo>({
+    id: 0,
+    name: '',
+    email: '',
+    avatar: '',
+  });
+
+  useEffect(() => {
+    fetchData<UserInfo>('/secure/info').then((data) => {
+      setUser(data);
+    });
+  }, []);
+
+  const handleSignOut = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    await signOut({ callbackUrl: '/api/auth/logout', redirect: false });
+    redirect('/auth/login');
+  };
+
+  const handleChangePassword = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    redirect(`https://dev-auth.victorcornejo.com/realms/byteflow/account`);
+  };
 
   return (
     <SidebarMenu>
@@ -63,9 +91,9 @@ export function NavUser({ user }: { user: UserInfo }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleChangePassword}>
                 <Sparkles />
-                Upgrade to Pro
+                Cambiar contraseña
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -84,9 +112,9 @@ export function NavUser({ user }: { user: UserInfo }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
-              Log out
+              Cerrar sesión
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

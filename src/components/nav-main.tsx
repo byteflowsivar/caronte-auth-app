@@ -13,20 +13,17 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+import { useEffect, useState } from 'react';
+import fetchData from '@/lib/fetch-data';
+import NavItem from '@/lib/entities/nav-item';
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function NavMain() {
+  const [items, setItems] = useState<NavItem[]>([]);
+
+  useEffect(() => {
+    fetchData<NavItem[]>('/secure/menu').then((navMain) => setItems(navMain));
+  }, []);
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

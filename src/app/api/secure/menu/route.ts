@@ -1,4 +1,7 @@
 import NavItem from '@/lib/entities/nav-item';
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/_auth-option';
 
 const navMain: NavItem[] = [
   {
@@ -88,6 +91,10 @@ const navMain: NavItem[] = [
   },
 ];
 
-export async function GET() {
-  return Response.json(navMain);
+export async function GET(): Promise<NextResponse> {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  return NextResponse.json(navMain, { status: 200 });
 }
