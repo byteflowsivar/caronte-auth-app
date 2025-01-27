@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { env } from '@/config/env';
 
 export function CompanyInfo() {
-  const applicationName = process.env.NEXT_PUBLIC_APPLICATION_NAME || 'Application Name';
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Company Name';
+  const applicationName = env.NEXT_PUBLIC_APPLICATION_NAME;
+  const companyName = env.NEXT_PUBLIC_COMPANY_NAME;
   return (
     <>
       <div className="flex flex-row gap-4">

@@ -19,15 +19,17 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-export function NavProjects({
-  projects,
-}: {
-  projects: {
-    name: string;
-    url: string;
-    icon: LucideIcon;
-  }[];
-}) {
+interface Project {
+  name: string;
+  url: string;
+  icon: LucideIcon;
+}
+
+interface NavProjectsProps {
+  projects: Project[];
+}
+
+export function NavProjects({ projects }: Readonly<NavProjectsProps>) {
   const { isMobile } = useSidebar();
 
   return (

@@ -25,14 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <SessionWrapper>
-        <html lang="en">
-          <body className={`${localFont1.variable} ${localFont2.variable} antialiased`}>
-            {children}
-          </body>
-        </html>
-      </SessionWrapper>
-    </>
+    <SessionWrapper>
+      <html lang="en">
+        <body className={`${localFont1.variable} ${localFont2.variable} antialiased`}>
+          {children}
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }
