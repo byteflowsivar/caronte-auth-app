@@ -9,9 +9,9 @@ const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers/oauth
   providers: [
     KeycloakProvider({
-      clientId: env.KEYCLOAK_CLIENT_ID as string,
-      clientSecret: env.KEYCLOAK_CLIENT_SECRET as string,
-      issuer: env.KEYCLOAK_ISSUER as string,
+      clientId: env.KEYCLOAK_CLIENT_ID,
+      clientSecret: env.KEYCLOAK_CLIENT_SECRET,
+      issuer: env.KEYCLOAK_ISSUER,
     }),
   ],
   callbacks: {
@@ -71,7 +71,7 @@ const authOptions: NextAuthOptions = {
           authOptions.providers.find((p) => p.id === 'keycloak') as OAuthConfig<KeycloakProfile>
         ).options!.issuer!;
         const logOutUrl = new URL(`${issuerUrl}/protocol/openid-connect/logout`);
-        logOutUrl.searchParams.set('id_token_hint', token.account.id_token!);
+        logOutUrl.searchParams.set('id_token_hint', token.account.id_token);
 
         console.log('logOutUrl => ', logOutUrl);
 

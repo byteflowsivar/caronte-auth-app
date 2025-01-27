@@ -9,13 +9,11 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>{children}</SidebarInset>
-        </SidebarProvider>
-      </Suspense>
-    </>
+    <Suspense fallback={<Loading />}>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>{children}</SidebarInset>
+      </SidebarProvider>
+    </Suspense>
   );
 }

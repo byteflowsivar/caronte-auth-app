@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { LogIn } from 'lucide-react';
 import { signIn } from 'next-auth/react';
+import { ComponentPropsWithoutRef } from 'react';
 
-export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function LoginForm({ className, ...props }: Readonly<ComponentPropsWithoutRef<'div'>>) {
   const onSignIn = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     await signIn('keycloak', { callbackUrl: '/secure/dashboard' });
