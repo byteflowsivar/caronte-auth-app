@@ -4,7 +4,7 @@ FROM base AS deps-dev
 WORKDIR /app
 # Instalar dependencias
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 FROM deps-dev AS build
 
